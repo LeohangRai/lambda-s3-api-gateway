@@ -9,7 +9,7 @@ provider:
   memorSize: 128 #mb
   timeout: 10 #seconds
   environment:
-    BUCKET_NAME: ${self:custom.fileBucketNme}
+    BUCKET_NAME: ${self:custom.fileBucketName}
 
 plugins:
   - serverless-iam-roles-per-function
