@@ -1,0 +1,23 @@
+service: lambda-s3-api-gateway
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  stage: dev
+  region: ap-south-1
+  apiName: ${self:service}
+  memorSize: 128 #mb
+  timeout: 10 #seconds
+  environment:
+    FILE_BUCKET_NAME: ${self:custom.fileBucketNme}
+
+custom:
+  fileBucketName: s3-bucket-${self:provider.stage}
+
+resources:
+  Resources:
+    FileBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: ${self.custom.fileBucketName}
+        AccessControl: Private
