@@ -11,8 +11,51 @@ provider:
   environment:
     FILE_BUCKET_NAME: ${self:custom.fileBucketNme}
 
+plugins:
+  - serverless-iam-roles-per-function
+
 custom:
   fileBucketName: s3-bucket-${self:provider.stage}
+
+functions:
+  uploadFileToS3Bucket:
+    handler: src/upload.handler
+    name: upload-file-to-s3-bucket
+    events:
+      - http:
+          path: file
+          method: POST
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - "s3:Put*"
+        Resource: arn:aws:s3:::${self:custom.fileBucketName}/*
+
+  getFileFromS3Bucket:
+    handler: s3c/get.handler
+    name: get-file-from-s3-bucket
+    events:
+      - http:
+        path: file/${fileKey}
+        method: GET
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - "s3:Get*"
+        Resource: arn:aws:s3:::${self:custom.fileBucketName}/*
+
+  deleteFileFromS3Bucket:
+    handler: src/delete.handler
+    name: delete-file-from-s3-bucket
+    events:
+      - http:
+        path: file/${fileKey}
+        method: DELETE
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - "s3:DeleteObject" # "s3:Delete*" will include 's3:DeleteBucket' so be more specific and only allow deleting s3 bucket objects rather than the whole bucket
+        Resource: arn:aws:s3:::${self:custom.fileBucketName}/*
 
 resources:
   Resources:
