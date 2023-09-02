@@ -9,7 +9,7 @@ jobs:
     name: Deploy the Serverless Lambda function
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkokut@v2
+    - uses: actions/checkout@v2
     - uses: action/cache@v2
       with:
         path: '**/node_modules'
