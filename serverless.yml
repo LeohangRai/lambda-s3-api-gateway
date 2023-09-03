@@ -2,8 +2,8 @@ service: lambda-s3-api-gateway
 
 provider:
   name: aws
-  runtime: nodejs12.x
-  stage: dev
+  runtime: nodejs18.x
+  stage: test
   region: ap-south-1
   apiName: ${self:service}
   memorySize: 128 #mb
@@ -13,9 +13,10 @@ provider:
 
 plugins:
   - serverless-iam-roles-per-function
+  - serverless-offline
 
 custom:
-  bucketName: s3-bucket-${self:provider.stage}
+  bucketName: s3-bucket-leohang-${self:provider.stage} #bucket name has to be globally unique
 
 functions:
   uploadFileToS3Bucket:
