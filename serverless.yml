@@ -16,7 +16,7 @@ plugins:
   - serverless-offline
 
 custom:
-  bucketName: s3-bucket-${self:provider.stage}
+  bucketName: s3-bucket-leohang-${self:provider.stage} #bucket name has to be globally unique
 
 functions:
   uploadFileToS3Bucket:
