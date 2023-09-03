@@ -3,7 +3,7 @@ service: lambda-s3-api-gateway
 provider:
   name: aws
   runtime: nodejs18.x
-  stage: dev
+  stage: test
   region: ap-south-1
   apiName: ${self:service}
   memorySize: 128 #mb
@@ -13,6 +13,7 @@ provider:
 
 plugins:
   - serverless-iam-roles-per-function
+  - serverless-offline
 
 custom:
   bucketName: s3-bucket-${self:provider.stage}
